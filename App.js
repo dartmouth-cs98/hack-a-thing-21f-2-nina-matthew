@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import {
   FlatList, StyleSheet, Text, View, SafeAreaView,
 } from 'react-native';
@@ -11,6 +11,7 @@ import ListItem from './components/ListItem';
 import Chart from './components/Chart'
 
 import { SAMPLE_DATA } from './assets/data/sampleData';
+import { getMarketData } from './services/cryptoService';
 
 const ListHeader = () => (
   <>
@@ -24,7 +25,17 @@ const ListHeader = () => (
 );
 
 export default function App() {
+  const [data, setData] = useState([]);
   const [selectedCoinData, setSelectedCoinData] = useState(null);
+
+  useEffect(() => {
+    const fetchMarketData = async () => {
+      const marketData = await getMarketData();
+      setData(marketData);
+    }
+
+    fetchMarketData();
+  }, [])
 
   const bottomSheetModalRef = useRef(null);
 
