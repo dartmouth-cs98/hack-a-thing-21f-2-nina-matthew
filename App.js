@@ -1,28 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState, useRef, useMemo, useEffect } from 'react';
-import {
-  FlatList, StyleSheet, Text, View, SafeAreaView,
-} from 'react-native';
+import React, {useRef, useMemo, useState, useEffect} from 'react';
+import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import ListItem from './components/ListItem';
+import Chart from './components/Chart';
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import ListItem from './components/ListItem';
-import Chart from './components/Chart'
-
-import { SAMPLE_DATA } from './assets/data/sampleData';
 import { getMarketData } from './services/cryptoService';
 
 const ListHeader = () => (
   <>
-
     <View style={styles.titleWrapper}>
-      <Text style={styles.largeTitle}>Markets</Text>
-    </View>
+        <Text style={styles.largeTitle}>Markets</Text>
+      </View>
     <View style={styles.divider} />
-
   </>
-);
+)
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -43,30 +36,29 @@ export default function App() {
 
   const openModal = (item) => {
     setSelectedCoinData(item);
-    bottomSheetModalRef.current.present();
-  };
+    bottomSheetModalRef.current?.present();
+  }
 
   return (
     <BottomSheetModalProvider>
-      <SafeAreaView style={styles.container}>
-
-        <FlatList
-          keyExtractor={(item) => item.id}
-          data={SAMPLE_DATA}
-          renderItem={({ item }) => (
-            <ListItem
-              name={item.name}
-              symbol={item.symbol}
-              currentPrice={item.current_price}
-              priceChangePercentage7d={item.price_change_percentage_7d_in_currency}
-              logoUrl={item.image}
-              onPress={() => openModal(item)}
-            />
-          )}
-          ListHeaderComponent={<ListHeader />}
-        />
-
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        keyExtractor={(item) => item.id}
+        data={data}
+        renderItem={({ item }) => (
+          <ListItem
+            name={item.name}
+            symbol={item.symbol}
+            currentPrice={item.current_price}
+            priceChangePercentage7d={item.price_change_percentage_7d_in_currency}
+            logoUrl={item.image}
+            onPress={() => openModal(item)}
+          />
+        )}
+        ListHeaderComponent={<ListHeader />}
+      />
       </SafeAreaView>
+
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={0}
@@ -74,18 +66,17 @@ export default function App() {
         style={styles.bottomSheet}
       >
         { selectedCoinData ? (
-        <Chart 
-          currentPrice={selectedCoinData.current_price}
-          symbol={selectedCoinData.symbol}
-          logoUrl={selectedCoinData.image}
-          name={selectedCoinData.name}
-          priceChangePercentage7d={selectedCoinData.price_change_percentage_7d_in_currency}
-          sparkline={selectedCoinData.sparkline_in_7d.price}
-        /> )
-        : null }
-
+          <Chart
+            currentPrice={selectedCoinData.current_price}
+            logoUrl={selectedCoinData.image}
+            name={selectedCoinData.name}
+            symbol={selectedCoinData.symbol}
+            priceChangePercentage7d={selectedCoinData.price_change_percentage_7d_in_currency}
+            sparkline={selectedCoinData?.sparkline_in_7d.price}
+          />
+        ) : null}
       </BottomSheetModal>
-    </BottomSheetModalProvider>
+      </BottomSheetModalProvider>
   );
 }
 
@@ -100,7 +91,7 @@ const styles = StyleSheet.create({
   },
   largeTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   divider: {
     height: StyleSheet.hairlineWidth,
@@ -109,12 +100,12 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   bottomSheet: {
-    shadowColor:"#000",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: -4, 
+      height: -4,
     },
-    shadowOpacity: .25,
+    shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
   },
