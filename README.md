@@ -7,6 +7,16 @@ We built a crypto price tracker app in React Native which has a list of differen
 
 Screenshots:
 
+Main Page
+
+![](screenshots/main_page.png)
+
+Example Chart
+
+![](screenshots/chart.png)
+
+
+
 ## Who Did What?
 
 We both followed the first tutorial together to set up our workspaces and understand how the simulators work. We then took turns coding for the second tutorial which showed us how to build the crypto price tracker app - Nina coded the first half (initial set up, creating the reusable components for the list with sample data, and creating an empty bottom sheet when clicking on a currency), and Matthew coded the second half (displaying the graph on the bottom sheet, connecting to the api and using this information to populate the list and graphs).
@@ -16,7 +26,7 @@ We both followed the first tutorial together to set up our workspaces and unders
 What worked: 
 * Learned how to create reusable components
 * Smaller specifics like making the list scroll nicely and using SafeAreaView
-* Learned how to use an axios to retreive data from API 
+* Learned how to use axios to retreive data from coin gecko API 
 * Learned how to include outside services like BottomSheet
 * Learned about simulators and debugging
 
