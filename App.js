@@ -1,8 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useRef, useMemo } from 'react';
 import {
   FlatList, StyleSheet, Text, View, SafeAreaView,
 } from 'react-native';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
 import ListItem from './components/ListItem';
 
 import { SAMPLE_DATA } from './assets/data/sampleData';
@@ -19,25 +23,46 @@ const ListHeader = () => (
 );
 
 export default function App() {
+  const bottomSheetModalRef = useRef(null);
+
+  const snapPoints = useMemo(() => ['50%'], []);
+
+  const openModal = () => {
+    bottomSheetModalRef.current.present();
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <BottomSheetModalProvider>
+      <SafeAreaView style={styles.container}>
 
-      <FlatList
-        keyExtractor={(item) => item.id}
-        data={SAMPLE_DATA}
-        renderItem={({ item }) => (
-          <ListItem
-            name={item.name}
-            symbol={item.symbol}
-            currentPrice={item.current_price}
-            priceChangePercentage7d={item.price_change_percentage_7d_in_currency}
-            logoUrl={item.image}
-          />
-        )}
-        ListHeaderComponent={<ListHeader />}
-      />
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={SAMPLE_DATA}
+          renderItem={({ item }) => (
+            <ListItem
+              name={item.name}
+              symbol={item.symbol}
+              currentPrice={item.current_price}
+              priceChangePercentage7d={item.price_change_percentage_7d_in_currency}
+              logoUrl={item.image}
+              onPress={() => openModal()}
+            />
+          )}
+          ListHeaderComponent={<ListHeader />}
+        />
 
-    </SafeAreaView>
+      </SafeAreaView>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+      >
+        <View>
+          <Text>Awesome</Text>
+        </View>
+
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
   );
 }
 
